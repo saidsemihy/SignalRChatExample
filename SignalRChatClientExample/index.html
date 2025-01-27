@@ -1,7 +1,7 @@
 <!-- <!DOCTYPE html> -->
 <html lang="en">
   <head>
-    <title>Simple Chat App</title>
+    <title>Mesajlaşma Uygulaması</title>
     <script src="signalr.min.js"></script>
     <script src="jquery.min.js"></script>
 
@@ -24,52 +24,42 @@
         connection.start();
         $(".disabled").attr("disabled", "disabled");
         $("body").on("click", ".users", function () {
-         
           $(".users").each((index, item) => {
             item.classList.remove("active");
           });
           $(this).addClass("active");
         });
 
-      
         $("#btnLogin").click(() => {
           const nickName = $("#txtNickName").val();
-          if(nickName!="")
-          {
-          connection
-            .invoke("GetNickName", nickName)
-            .catch((error) => console.log(`Alınan Hata ${error}`));
-          $(".disabled").removeAttr("disabled");
-          let  options="";
-          connection.on("groups",groupnames=>{
-         
-          options+=`<option selected value="${-1}">Tüm Odalar</option>`;
-          $.each(groupnames,(Index,item)=>{
-           options+=`<option value="${item.groupName}">${item.groupName}</option>`
-          })});
-          $(".rooms").html(options);
-// 
-          document.querySelector("#btnLogin").classList += " disabled";
-          $("#btnSend").removeClass("disabled");
-          $("#btnSendGroup").removeClass("disabled");
-          $("#btnCreateGroup").removeClass("disabled");
-          $("#btnJoinGroups").removeClass("disabled");
+          if (nickName != "") {
+            connection
+              .invoke("GetNickName", nickName)
+              .catch((error) => console.log(`Alınan Hata ${error}`));
+            $(".disabled").removeAttr("disabled");
+            let options = "";
+            connection.on("groups", (groupnames) => {
+              options += `<option selected value="${-1}">Tüm Odalar</option>`;
+              $.each(groupnames, (Index, item) => {
+                options += `<option value="${item.groupName}">${item.groupName}</option>`;
+              });
+            });
+            $(".rooms").html(options);
+            //
+            document.querySelector("#btnLogin").classList += " disabled";
+            $("#btnSend").removeClass("disabled");
+            $("#btnSendGroup").removeClass("disabled");
+            $("#btnCreateGroup").removeClass("disabled");
+            $("#btnJoinGroups").removeClass("disabled");
 
+            $("#txtNickName").prop("readonly", true);
+            $("#txtMessage").prop("readonly", false);
 
-          $("#txtNickName").prop("readonly",true);
-          $("#txtMessage").prop("readonly",false);
-
-// 
-
-         
+            //
+          } else {
+            window.alert("Kullanıcı Adı Boş Olamaz !");
           }
-        else
-        {
-          window.alert("Kullanıcı Adı Boş Olamaz !");
-        }
-     
         });
-      
 
         connection.on("clientJoined", (nickName) => {
           $("#clientJoinedTrigger").html(`${nickName} Giriş Yaptı.`);
@@ -90,63 +80,56 @@
             $("#_clients").append(user);
           });
         });
-        connection.on("receiveMessage",(message,nickName)=>{
-         
-         const _message= $(".message").clone();
-         _message.removeClass("message");
-         _message.find("p").html(message);
-            _message.find("h5")[0].innerHTML=nickName;
-         $(".messages").append(_message);
-
-        })
-
-        $("#btnSend").click(()=>{
-          const clientName=$(".users.active").first().html();
-          const message=$("#txtMessage").val();
-          connection.invoke("SendMessageAsync",message,clientName);
-
-          const _message= $(".message").clone();  // Kendi mesajın gözükmesi için açıldı
-         _message.removeClass("message");
-         _message.find("p").html(message);
-         _message.find("h5")[1].innerHTML="sen";
-         $(".messages").append(_message); 
-
-        });
-        $("#btnCreateGroup").click(()=>{
-          connection.invoke("AddGroup",$("#groupName").val());
+        connection.on("receiveMessage", (message, nickName) => {
+          const _message = $(".message").clone();
+          _message.removeClass("message");
+          _message.find("p").html(message);
+          _message.find("h5")[0].innerHTML = nickName;
+          $(".messages").append(_message);
         });
 
-        connection.on("groups",groupnames=>{
-          let  options="";
-          options+=`<option selected value="${-1}">Tüm Odalar</option>`;
-          $.each(groupnames,(Index,item)=>{
-           options+=`<option value="${item.groupName}">${item.groupName}</option>`
+        $("#btnSend").click(() => {
+          const clientName = $(".users.active").first().html();
+          const message = $("#txtMessage").val();
+          connection.invoke("SendMessageAsync", message, clientName);
+
+          const _message = $(".message").clone(); // Kendi mesajın gözükmesi için açıldı
+          _message.removeClass("message");
+          _message.find("p").html(message);
+          _message.find("h5")[1].innerHTML = "sen";
+          $(".messages").append(_message);
+        });
+        $("#btnCreateGroup").click(() => {
+          connection.invoke("AddGroup", $("#groupName").val());
+        });
+
+        connection.on("groups", (groupnames) => {
+          let options = "";
+          options += `<option selected value="${-1}">Tüm Odalar</option>`;
+          $.each(groupnames, (Index, item) => {
+            options += `<option value="${item.groupName}">${item.groupName}</option>`;
           });
           $(".rooms").html(options);
         });
-        $("#btnJoinGroups").click(()=>{
-          let groupNames=[];
-          $(".rooms option:Selected").map((i,e)=>{
+        $("#btnJoinGroups").click(() => {
+          let groupNames = [];
+          $(".rooms option:Selected").map((i, e) => {
             groupNames.push(e.innerHTML);
-
           });
-          connection.invoke("AddClientToGroup",groupNames);
-
+          connection.invoke("AddClientToGroup", groupNames);
         });
-        let _groupName="";
-        $(".rooms").change(function(){
-          let groupName=$(this).val();
-          _groupName=groupName[0];
-          connection.invoke("GetClientToGroup",groupName[0]);
-
+        let _groupName = "";
+        $(".rooms").change(function () {
+          let groupName = $(this).val();
+          _groupName = groupName[0];
+          connection.invoke("GetClientToGroup", groupName[0]);
         });
-        $("#btnSendGroup").click(()=>{
-          const message=$("#txtMessage").val();
+        $("#btnSendGroup").click(() => {
+          const message = $("#txtMessage").val();
           console.log(_groupName);
           console.log(message);
-          if(_groupName!="")
-          {
-            connection.invoke("SendMessageToGroupAsync",_groupName,message);
+          if (_groupName != "") {
+            connection.invoke("SendMessageToGroupAsync", _groupName, message);
             // const _message= $(".message").clone();
             // _message.removeClass("message");
             // _message.find("p").html(message);
@@ -166,13 +149,19 @@
             <input
               class="form-control form-control-lg disabled"
               type="text"
-              placeholder="Oda Adını Giriniz" id="groupName"
+              placeholder="Oda Adını Giriniz"
+              id="groupName"
             />
-            <br>
-            <button type="button" id="btnCreateGroup" class="btn btn-info rightButton disabled" >
+            <br />
+            <button
+              type="button"
+              id="btnCreateGroup"
+              class="btn btn-info rightButton disabled"
+            >
               Oda oluştur
             </button>
-            <br> <br>
+            <br />
+            <br />
             <select
               size="5"
               style="width: 100%"
@@ -181,9 +170,13 @@
             >
               <option selected value="-1">Tüm Odalar</option>
             </select>
-            <br>
-            <br>
-            <button type="button" id="btnJoinGroups"  class="btn btn-primary rightButton disabled">
+            <br />
+            <br />
+            <button
+              type="button"
+              id="btnJoinGroups"
+              class="btn btn-primary rightButton disabled"
+            >
               Seçili Odalara Gir
             </button>
             <br /><br /><br />
@@ -213,22 +206,22 @@
               id="txtMessage"
               readonly
             ></textarea>
-            <br>
+            <br />
             <button
-            type="button"
-            class="btn btn-info rightButton disabled"
-            id="btnSendGroup"
-          >
-          Seçili Gruba Mesaj  Gönder
-          </button>
+              type="button"
+              class="btn btn-info rightButton disabled"
+              id="btnSendGroup"
+            >
+              Seçili Gruba Mesaj Gönder
+            </button>
             <button
               type="button"
               class="btn btn-warning rightButton disabled"
               id="btnSend"
             >
-             Herkese Gönder
+              Herkese Gönder
             </button>
-            
+
             <br /><br /><br />
             <div class="list-group messages">
               <a
@@ -240,7 +233,6 @@
                   <h5 class="mb-2"></h5>
                 </div>
                 <p class="mb-1"></p>
-                
               </a>
             </div>
           </div>
@@ -251,7 +243,7 @@
               placeholder="Adınız/Nickname"
               id="txtNickName"
             />
-            <br>
+            <br />
             <button
               type="button"
               class="btn btn-success leftButton"
