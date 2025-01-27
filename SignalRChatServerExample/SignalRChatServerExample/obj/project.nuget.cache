@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "R+jgITas2nA=",
+  "dgSpecHash": "HlR8H68KSaU=",
   "success": true,
-  "projectFilePath": "/Users/said/Desktop/SignalR-Chat/SignalRChatServerExample/SignalRChatServerExample/SignalRChatServerExample.csproj",
+  "projectFilePath": "/Users/said/Desktop/deneme 30/SignalRChatExample/SignalRChatServerExample/SignalRChatServerExample/SignalRChatServerExample.csproj",
   "expectedPackageFiles": [
     "/Users/said/.nuget/packages/microsoft.aspnetcore.openapi/8.0.7/microsoft.aspnetcore.openapi.8.0.7.nupkg.sha512",
     "/Users/said/.nuget/packages/microsoft.extensions.apidescription.server/6.0.5/microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",

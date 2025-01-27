@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/said/Desktop/SignalR-Chat/SignalRChatServerExample/SignalRChatServerExample/SignalRChatServerExample.csproj": {}
+    "/Users/said/Desktop/deneme 30/SignalRChatExample/SignalRChatServerExample/SignalRChatServerExample/SignalRChatServerExample.csproj": {}
   },
   "projects": {
-    "/Users/said/Desktop/SignalR-Chat/SignalRChatServerExample/SignalRChatServerExample/SignalRChatServerExample.csproj": {
+    "/Users/said/Desktop/deneme 30/SignalRChatExample/SignalRChatServerExample/SignalRChatServerExample/SignalRChatServerExample.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/said/Desktop/SignalR-Chat/SignalRChatServerExample/SignalRChatServerExample/SignalRChatServerExample.csproj",
+        "projectUniqueName": "/Users/said/Desktop/deneme 30/SignalRChatExample/SignalRChatServerExample/SignalRChatServerExample/SignalRChatServerExample.csproj",
         "projectName": "SignalRChatServerExample",
-        "projectPath": "/Users/said/Desktop/SignalR-Chat/SignalRChatServerExample/SignalRChatServerExample/SignalRChatServerExample.csproj",
+        "projectPath": "/Users/said/Desktop/deneme 30/SignalRChatExample/SignalRChatServerExample/SignalRChatServerExample/SignalRChatServerExample.csproj",
         "packagesPath": "/Users/said/.nuget/packages/",
-        "outputPath": "/Users/said/Desktop/SignalR-Chat/SignalRChatServerExample/SignalRChatServerExample/obj/",
+        "outputPath": "/Users/said/Desktop/deneme 30/SignalRChatExample/SignalRChatServerExample/SignalRChatServerExample/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/said/.nuget/NuGet/NuGet.Config"
