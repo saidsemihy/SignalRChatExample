@@ -39,7 +39,6 @@
             $(".disabled").removeAttr("disabled");
             let options = "";
             connection.on("groups", (groupnames) => {
-              options += `<option selected value="${-1}">Tüm Odalar</option>`;
               $.each(groupnames, (Index, item) => {
                 options += `<option value="${item.groupName}">${item.groupName}</option>`;
               });
@@ -81,11 +80,17 @@
           });
         });
         connection.on("receiveMessage", (message, nickName) => {
-          const _message = $(".message").clone();
-          _message.removeClass("message");
-          _message.find("p").html(message);
-          _message.find("h5")[0].innerHTML = nickName;
-          $(".messages").append(_message);
+          const senderName = $("#txtNickName").val();
+
+          if (senderName != nickName) {
+            const _message = $(".message").clone();
+            _message.removeClass("message");
+            _message.find("p").html(message);
+            _message.find("h5")[0].innerHTML = nickName;
+            $(".messages").append(_message);
+          }
+
+         
         });
 
         $("#btnSend").click(() => {
@@ -105,7 +110,6 @@
 
         connection.on("groups", (groupnames) => {
           let options = "";
-          options += `<option selected value="${-1}">Tüm Odalar</option>`;
           $.each(groupnames, (Index, item) => {
             options += `<option value="${item.groupName}">${item.groupName}</option>`;
           });
@@ -130,11 +134,11 @@
           console.log(message);
           if (_groupName != "") {
             connection.invoke("SendMessageToGroupAsync", _groupName, message);
-            // const _message= $(".message").clone();
-            // _message.removeClass("message");
-            // _message.find("p").html(message);
-            // _message.find("h5")[1].innerHTML=`Sen`;
-            // $(".messages").append(_message);
+            const _message= $(".message").clone();
+            _message.removeClass("message");
+            _message.find("p").html(message);
+            _message.find("h5")[1].innerHTML=`sen`;
+            $(".messages").append(_message); 
           }
         });
       });
@@ -168,7 +172,6 @@
               class="form-select disabled rooms"
               multiple
             >
-              <option selected value="-1">Tüm Odalar</option>
             </select>
             <br />
             <br />
